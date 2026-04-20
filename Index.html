@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vainix Systems</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050a12;
+      --surface: #0b1420;
+      --card: #0f1e30;
+      --border: rgba(0,200,255,0.12);
+      --accent: #00c8ff;
+      --accent2: #00ff99;
+      --accent3: #ff6b35;
+      --text: #e8f4ff;
+      --muted: #6a8aaa;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.35;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 6vw; backdrop-filter: blur(18px);
+      background: rgba(5,10,18,0.75); border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-head); font-size: 1.35rem; font-weight: 800; letter-spacing: 0.05em; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.2rem; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta { background: var(--accent); color: var(--bg); border: none; padding: 0.55rem 1.4rem; border-radius: 4px; font-family: var(--font-head); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 12rem 6vw 6rem; position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%); animation: gridMove 20s linear infinite; }
+    @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
+    .hero-orb { position: absolute; top: -10%; right: -5%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, transparent 70%); pointer-events: none; animation: pulse 6s ease-in-out infinite; }
+    .hero-orb2 { position: absolute; bottom: 5%; left: -10%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,153,0.07) 0%, transparent 70%); pointer-events: none; animation: pulse 8s ease-in-out infinite reverse; }
+    @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
+
+    .hero-tag { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.25); border-radius: 100px; padding: 0.35rem 1rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.8rem; animation: fadeUp 0.8s ease both; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .hero h1 { position: relative; z-index: 1; font-family: var(--font-head); font-size: clamp(2.8rem, 7vw, 6rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; max-width: 820px; animation: fadeUp 0.8s 0.1s ease both; }
+    .hero h1 .line-accent { color: var(--accent); }
+    .hero h1 .line-accent2 { color: var(--accent2); }
+    .hero-sub { position: relative; z-index: 1; font-size: 1.15rem; font-weight: 300; color: var(--muted); max-width: 540px; line-height: 1.7; margin-top: 1.5rem; animation: fadeUp 0.8s 0.2s ease both; }
+    .hero-actions { position: relative; z-index: 1; display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both; }
+    .btn-primary { background: var(--accent); color: var(--bg); padding: 0.85rem 2rem; border-radius: 6px; font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; transition: all 0.25s; box-shadow: 0 0 30px rgba(0,200,255,0.3); }
+    .btn-primary:hover { background: #1dd8ff; transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,200,255,0.5); }
+    .btn-secondary { border: 1px solid rgba(0,200,255,0.3); color: var(--accent); background: transparent; padding: 0.85rem 2rem; border-radius: 6px; font-family: var(--font-head); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; transition: all 0.25s; }
+    .btn-secondary:hover { background: rgba(0,200,255,0.08); transform: translateY(-2px); }
+
+    .hero-stats { position: relative; z-index: 1; display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s ease both; }
+    .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .stat-num { font-family: var(--font-head); font-size: 2rem; font-weight: 800; color: var(--text); }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    section { padding: 6rem 6vw; position: relative; }
+    .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .section-title { font-family: var(--font-head); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .section-title span { color: var(--accent); }
+    .section-sub { color: var(--muted); max-width: 480px; line-height: 1.7; }
+
+    .marquee-section { padding: 2rem 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(0,200,255,0.02); }
+    .marquee-track { display: flex; gap: 3rem; width: max-content; animation: marquee 25s linear infinite; }
+    .marquee-item { display: flex; align-items: center; gap: 0.6rem; white-space: nowrap; font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .marquee-item .dot { color: var(--accent); font-size: 1.2rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+    .about-visual { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; background: linear-gradient(135deg, #0b2040 0%, #051020 100%); border: 1px solid var(--border); }
+    .about-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(5,10,18,0.8)); }
+    .circuit-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.4; }
+    .about-badge { position: absolute; bottom: 1.5rem; left: 1.5rem; z-index: 2; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); padding: 0.6rem 1.2rem; border-radius: 8px; font-family: var(--font-head); font-size: 0.82rem; font-weight: 700; color: var(--accent); }
+    .about-points { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .about-point { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.2rem; border-radius: 10px; background: rgba(0,200,255,0.03); border: 1px solid var(--border); transition: all 0.3s; }
+    .about-point:hover { background: rgba(0,200,255,0.07); border-color: rgba(0,200,255,0.25); }
+    .point-icon { font-size: 1.4rem; flex-shrink: 0; width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; background: rgba(0,200,255,0.08); border-radius: 8px; }
+    .point-text h4 { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .point-text p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    /* PRODUCTS */
+    .products { background: var(--surface); }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.3s; cursor: default; display: flex; flex-direction: column; }
+    .product-card:hover { border-color: rgba(0,200,255,0.35); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,200,255,0.08); }
+    .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity 0.3s; }
+    .product-card:hover::before { opacity: 1; }
+    .product-icon { font-size: 2rem; margin-bottom: 1.2rem; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+    .product-card:nth-child(1) .product-icon { background: rgba(0,200,255,0.1); }
+    .product-card:nth-child(2) .product-icon { background: rgba(0,255,153,0.1); }
+    .product-card:nth-child(3) .product-icon { background: rgba(255,107,53,0.1); }
+    .product-card:nth-child(4) .product-icon { background: rgba(160,100,255,0.1); }
+    .product-card:nth-child(5) .product-icon { background: rgba(255,200,0,0.1); }
+    .product-card:nth-child(6) .product-icon { background: rgba(0,230,180,0.1); }
+    .product-card:nth-child(7) .product-icon { background: rgba(255,100,180,0.1); }
+    .product-card h3 { font-family: var(--font-head); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .product-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; flex: 1; }
+    .product-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.2rem; flex-wrap: wrap; gap: 0.6rem; }
+    .product-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; background: rgba(0,200,255,0.08); color: var(--accent); border: 1px solid rgba(0,200,255,0.2); }
+
+    .arch-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: transparent; border: 1px solid rgba(0,200,255,0.25); padding: 0.28rem 0.75rem; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+    .arch-link:hover { background: rgba(0,200,255,0.1); border-color: rgba(0,200,255,0.5); transform: translateY(-1px); }
+    .arch-link svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(2,6,14,0.92); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+    .modal { background: var(--surface); border: 1px solid rgba(0,200,255,0.2); border-radius: 20px; width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; transform: translateY(30px) scale(0.97); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); position: relative; }
+    .modal-overlay.active .modal { transform: translateY(0) scale(1); }
+    .modal-header { padding: 2rem 2rem 1.2rem; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; position: sticky; top: 0; background: var(--surface); z-index: 2; border-radius: 20px 20px 0 0; }
+    .modal-header-left { display: flex; align-items: center; gap: 1rem; }
+    .modal-icon { font-size: 1.8rem; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0; }
+    .modal-title { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; }
+    .modal-subtitle { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+    .modal-close { background: rgba(0,200,255,0.06); border: 1px solid var(--border); color: var(--muted); width: 2.2rem; height: 2.2rem; border-radius: 8px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+    .modal-close:hover { background: rgba(0,200,255,0.15); color: var(--text); border-color: rgba(0,200,255,0.3); }
+    .modal-body { padding: 2rem; }
+
+    .arch-diagram { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; overflow-x: auto; }
+    .arch-diagram-title { font-family: var(--font-head); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.4rem; }
+    .arch-layers { display: flex; flex-direction: column; gap: 0.7rem; min-width: 560px; }
+    .arch-layer { display: flex; align-items: stretch; gap: 0.5rem; }
+    .arch-layer-label { width: 100px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; flex-shrink: 0; }
+    .arch-layer-blocks { display: flex; gap: 0.5rem; flex: 1; flex-wrap: wrap; }
+    .arch-block { flex: 1; min-width: 80px; padding: 0.55rem 0.8rem; border-radius: 8px; font-size: 0.72rem; font-weight: 600; text-align: center; border: 1px solid; display: flex; align-items: center; justify-content: center; line-height: 1.3; }
+    .arch-block.blue { background: rgba(0,200,255,0.08); border-color: rgba(0,200,255,0.25); color: #00c8ff; }
+    .arch-block.green { background: rgba(0,255,153,0.08); border-color: rgba(0,255,153,0.25); color: #00ff99; }
+    .arch-block.orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.25); color: #ff6b35; }
+    .arch-block.purple { background: rgba(160,100,255,0.08); border-color: rgba(160,100,255,0.25); color: #a064ff; }
+    .arch-block.yellow { background: rgba(255,200,0,0.08); border-color: rgba(255,200,0,0.25); color: #ffc800; }
+    .arch-block.teal { background: rgba(0,230,210,0.08); border-color: rgba(0,230,210,0.25); color: #00e6d2; }
+    .arch-block.mint { background: rgba(0,230,180,0.08); border-color: rgba(0,230,180,0.25); color: #00e6b4; }
+    .arch-block.pink { background: rgba(255,100,180,0.08); border-color: rgba(255,100,180,0.25); color: #ff64b4; }
+    .arch-arrow { text-align: center; color: var(--muted); font-size: 1rem; line-height: 1; padding-left: 106px; }
+
+    .modal-section { margin-bottom: 2rem; }
+    .modal-section-title { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .modal-section-title::before { content: ''; display: inline-block; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+
+    .func-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; }
+    .func-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+    .func-item-icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .func-item h4 { font-family: var(--font-head); font-size: 0.82rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .func-item p { font-size: 0.77rem; color: var(--muted); line-height: 1.5; }
+
+    .comp-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .comp-item { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.7rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+    .comp-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 4px; flex-shrink: 0; margin-top: 0.1rem; }
+    .comp-badge.hw { background: rgba(0,200,255,0.12); color: #00c8ff; border: 1px solid rgba(0,200,255,0.25); }
+    .comp-badge.sw { background: rgba(0,255,153,0.12); color: #00ff99; border: 1px solid rgba(0,255,153,0.25); }
+    .comp-badge.fw { background: rgba(255,107,53,0.12); color: #ff6b35; border: 1px solid rgba(255,107,53,0.25); }
+    .comp-badge.proto { background: rgba(160,100,255,0.12); color: #a064ff; border: 1px solid rgba(160,100,255,0.25); }
+    .comp-badge.os { background: rgba(255,200,0,0.12); color: #ffc800; border: 1px solid rgba(255,200,0,0.25); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .why-card { padding: 2rem 1.5rem; border-radius: 16px; background: var(--card); border: 1px solid var(--border); transition: all 0.3s; text-align: center; }
+    .why-card:hover { border-color: rgba(0,255,153,0.3); transform: translateY(-3px); }
+    .why-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .why-card h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .why-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .team { background: var(--surface); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .team-card { border-radius: 20px; overflow: hidden; background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
+    .team-card:hover { border-color: rgba(0,200,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .team-img-wrap { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: linear-gradient(135deg, #0b2040, #061525); position: relative; }
+    .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; filter: grayscale(20%) contrast(1.05); }
+    .team-card:hover .team-img-wrap img { transform: scale(1.04); }
+    .team-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: rgba(0,200,255,0.15); }
+    .team-info { padding: 1.5rem; }
+    .team-info h3 { font-family: var(--font-head); font-size: 1.2rem; font-weight: 800; }
+    .team-role { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; margin: 0.3rem 0 0.7rem; text-transform: uppercase; }
+    .team-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .team-location { display: flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.78rem; color: var(--muted); }
+    .team-location span:first-child { font-size: 1rem; }
+
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+    .contact-info h3 { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; }
+    .contact-info p { color: var(--muted); line-height: 1.7; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-radius: 10px; background: var(--card); border: 1px solid var(--border); text-decoration: none; color: var(--text); transition: all 0.25s; }
+    .contact-link:hover { border-color: rgba(0,200,255,0.3); background: rgba(0,200,255,0.05); }
+    .contact-link-icon { width: 2.5rem; height: 2.5rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .cl-email .contact-link-icon { background: rgba(0,200,255,0.1); }
+    .cl-phone .contact-link-icon { background: rgba(0,255,153,0.1); }
+    .cl-wa .contact-link-icon { background: rgba(37,211,102,0.15); }
+    .contact-link-text { display: flex; flex-direction: column; }
+    .contact-link-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem; }
+    .contact-link-val { font-size: 0.9rem; font-weight: 500; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .form-group input, .form-group textarea { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; color: var(--text); font-family: var(--font-body); font-size: 0.9rem; transition: border-color 0.2s; outline: none; resize: vertical; }
+    .form-group input:focus, .form-group textarea:focus { border-color: rgba(0,200,255,0.5); }
+    .form-group textarea { min-height: 120px; }
+    .form-submit { background: var(--accent); color: var(--bg); border: none; padding: 0.9rem; border-radius: 8px; font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; margin-top: 0.5rem; box-shadow: 0 0 20px rgba(0,200,255,0.2); }
+    .form-submit:hover { background: #1dd8ff; box-shadow: 0 0 40px rgba(0,200,255,0.4); }
+
+    footer { padding: 2.5rem 6vw; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; }
+    .footer-logo span { color: var(--accent); }
+    footer p { font-size: 0.8rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .modal::-webkit-scrollbar { width: 5px; }
+    .modal::-webkit-scrollbar-track { background: var(--bg); }
+    .modal::-webkit-scrollbar-thumb { background: rgba(0,200,255,0.2); border-radius: 10px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; }
+      .hero { padding-top: 9rem; }
+      .hero-stats { gap: 2rem; }
+      footer { flex-direction: column; text-align: center; }
+      .modal-body { padding: 1.2rem; }
+      .modal-header { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VAINIX<span>.</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#why">Why Us</a>
+    <a href="#team">Team</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-orb2"></div>
+  <div class="hero-tag">Deep-Tech Startup · Bangalore, India</div>
+  <h1>
+    Engineering the <span class="line-accent">Future</span><br>
+    of <span class="line-accent2">Embedded</span> Systems
+  </h1>
+  <p class="hero-sub">
+    Building next-generation embedded solutions for automotive, EV, and connected devices — engineered for performance, reliability, and scale.
+  </p>
+  <div class="hero-actions">
+    <a href="#products" class="btn-primary">Explore Products</a>
+    <a href="#contact" class="btn-secondary">Talk to Us →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">Product Lines</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2<span>+</span></div>
+      <div class="stat-label">Expert Engineers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">India-Built Tech</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="dot">◆</span> CAN Bus Technology</div>
+    <div class="marquee-item"><span class="dot">◆</span> EV Charging Systems</div>
+    <div class="marquee-item"><span class="dot">◆</span> IoT Monitoring</div>
+    <div class="marquee-item"><span class="dot">◆</span> V2V Communication</div>
+    <div class="marquee-item"><span class="dot">◆</span> Automotive HPC</div>
+    <div class="marquee-item"><span class="dot">◆</span> Embedded Systems</div>
+    <div class="marquee-item"><span class="dot">◆</span> Smart Mobility</div>
+    <div class="marquee-item"><span class="dot">◆</span> RTOS Development</div>
+    <div class="marquee-item"><span class="dot">◆</span> CAN Bus Technology</div>
+    <div class="marquee-item"><span class="dot">◆</span> EV Charging Systems</div>
+    <div class="marquee-item"><span class="dot">◆</span> IoT Monitoring</div>
+    <div class="marquee-item"><span class="dot">◆</span> V2V Communication</div>
+    <div class="marquee-item"><span class="dot">◆</span> Automotive HPC</div>
+    <div class="marquee-item"><span class="dot">◆</span> Embedded Systems</div>
+    <div class="marquee-item"><span class="dot">◆</span> Smart Mobility</div>
+    <div class="marquee-item"><span class="dot">◆</span> RTOS Development</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <span class="section-tag">Who We Are</span>
+    <h2 class="section-title">From Signals <span>to Systems</span></h2>
+    <p class="section-sub">Vainix Systems is a deep-tech startup building intelligent embedded and automotive solutions — focused on real-world impact in the Indian market and beyond.</p>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-visual">
+      <svg class="circuit-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#00ff99" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+        <line x1="20" y1="50" x2="380" y2="50" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="20" y1="100" x2="380" y2="100" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="20" y1="150" x2="380" y2="150" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="20" y1="200" x2="380" y2="200" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="20" y1="250" x2="380" y2="250" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="60" y1="20" x2="60" y2="280" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="120" y1="20" x2="120" y2="280" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="200" y1="20" x2="200" y2="280" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="280" y1="20" x2="280" y2="280" stroke="url(#cg)" stroke-width="1"/>
+        <line x1="340" y1="20" x2="340" y2="280" stroke="url(#cg)" stroke-width="1"/>
+        <circle cx="60" cy="50" r="5" fill="#00c8ff" opacity="0.8"/>
+        <circle cx="120" cy="100" r="5" fill="#00ff99" opacity="0.8"/>
+        <circle cx="200" cy="50" r="8" fill="#00c8ff" opacity="0.9"/>
+        <circle cx="280" cy="150" r="5" fill="#00c8ff" opacity="0.8"/>
+        <circle cx="340" cy="200" r="5" fill="#00ff99" opacity="0.8"/>
+        <circle cx="200" cy="200" r="8" fill="#00ff99" opacity="0.9"/>
+        <circle cx="60" cy="200" r="5" fill="#00c8ff" opacity="0.6"/>
+        <circle cx="340" cy="100" r="5" fill="#00c8ff" opacity="0.6"/>
+        <rect x="155" y="110" width="90" height="70" rx="4" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.8"/>
+        <rect x="163" y="118" width="74" height="54" rx="2" fill="rgba(0,200,255,0.05)" stroke="#00c8ff" stroke-width="0.5" opacity="0.5"/>
+        <text x="200" y="149" text-anchor="middle" fill="#00c8ff" font-size="9" font-family="monospace" opacity="0.9">MCU-32</text>
+        <line x1="155" y1="125" x2="140" y2="125" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="155" y1="140" x2="140" y2="140" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="155" y1="155" x2="140" y2="155" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="245" y1="125" x2="260" y2="125" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="245" y1="140" x2="260" y2="140" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="245" y1="155" x2="260" y2="155" stroke="#00c8ff" stroke-width="1" opacity="0.7"/>
+        <circle cx="200" cy="145" r="3" fill="#00ff99">
+          <animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <div class="about-badge">🇮🇳 Made for India</div>
+    </div>
+    <div>
+      <div class="about-points">
+        <div class="about-point">
+          <div class="point-icon">🔌</div>
+          <div class="point-text">
+            <h4>CAN Bus Expertise</h4>
+            <p>Specialized knowledge in CAN protocols for automotive and industrial communication networks.</p>
+          </div>
+        </div>
+        <div class="about-point">
+          <div class="point-icon">⚡</div>
+          <div class="point-text">
+            <h4>EV Innovation</h4>
+            <p>Building the charging and control infrastructure for India's electric vehicle revolution.</p>
+          </div>
+        </div>
+        <div class="about-point">
+          <div class="point-icon">📡</div>
+          <div class="point-text">
+            <h4>IoT & Connected Devices</h4>
+            <p>End-to-end IoT solutions from hardware design to cloud integration for smart monitoring.</p>
+          </div>
+        </div>
+        <div class="about-point">
+          <div class="point-icon">🚘</div>
+          <div class="point-text">
+            <h4>V2X Communication</h4>
+            <p>Developing Vehicle-to-Vehicle and Vehicle-to-Everything systems for tomorrow's roads.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="products">
+  <div class="products-header reveal">
+    <div>
+      <span class="section-tag">What We Build</span>
+      <h2 class="section-title">Our <span>Products</span></h2>
+    </div>
+    <p class="section-sub" style="max-width:360px">Precision-engineered hardware and software solutions for the connected world.</p>
+  </div>
+  <div class="products-grid reveal">
+
+    <div class="product-card">
+      <div class="product-icon">🚗</div>
+      <h3>Smart CAN Logger</h3>
+      <p>High-performance CAN bus data logger for real-time vehicle diagnostics, data capture, and automotive protocol analysis.</p>
+      <div class="product-card-footer">
+        <span class="product-tag">Automotive</span>
+        <button class="arch-link" onclick="openModal('can')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">⚡</div>
+      <h3>EV Charging Systems</h3>
+      <p>Intelligent EV charging infrastructure with smart load management, remote monitoring, and seamless grid integration.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:var(--accent2);border-color:rgba(0,255,153,0.25);background:rgba(0,255,153,0.08)">EV Tech</span>
+        <button class="arch-link" onclick="openModal('ev')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">📡</div>
+      <h3>IoT Monitoring Devices</h3>
+      <p>Battery-efficient sensor nodes with wireless connectivity for industrial and environmental monitoring at scale.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:var(--accent3);border-color:rgba(255,107,53,0.25);background:rgba(255,107,53,0.08)">IoT</span>
+        <button class="arch-link" onclick="openModal('iot')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">🚘</div>
+      <h3>V2V & V2X Communication</h3>
+      <p>Next-gen vehicle communication modules enabling collision avoidance, traffic management, and infrastructure messaging.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:#a064ff;border-color:rgba(160,100,255,0.25);background:rgba(160,100,255,0.08)">V2X</span>
+        <button class="arch-link" onclick="openModal('v2x')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">🖥️</div>
+      <h3>High Performance Computer for Automotive</h3>
+      <p>Centralized automotive-grade HPC platform enabling ADAS, autonomous driving, and sensor fusion at the edge — built for functional safety and real-time determinism.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:#ffc800;border-color:rgba(255,200,0,0.25);background:rgba(255,200,0,0.08)">Automotive HPC</span>
+        <button class="arch-link" onclick="openModal('hpc')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <!-- NEW: Midaas -->
+    <div class="product-card">
+      <div class="product-icon">💎</div>
+      <h3>Midaas</h3>
+      <p>Modular intelligent data acquisition and analytics system for real-time embedded diagnostics, signal processing, and predictive insights across automotive and industrial platforms.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:#00e6b4;border-color:rgba(0,230,180,0.25);background:rgba(0,230,180,0.08)">Data Acquisition</span>
+        <button class="arch-link" onclick="openModal('midaas')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+    <!-- NEW: Zonal Architecture -->
+    <div class="product-card">
+      <div class="product-icon">🗂️</div>
+      <h3>Zonal Architecture</h3>
+      <p>Next-generation zonal E/E architecture platform replacing traditional domain-based vehicle networks with zone controllers — reducing wiring complexity and enabling centralized software-defined vehicle control.</p>
+      <div class="product-card-footer">
+        <span class="product-tag" style="color:#ff64b4;border-color:rgba(255,100,180,0.25);background:rgba(255,100,180,0.08)">Vehicle E/E</span>
+        <button class="arch-link" onclick="openModal('zonal')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Architecture
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto">
+    <span class="section-tag">Our Advantage</span>
+    <h2 class="section-title">Why Choose <span>Vainix</span></h2>
+    <p class="section-sub" style="margin:0 auto">We combine deep technical expertise with a clear understanding of India's market needs.</p>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-card"><div class="why-icon">🧠</div><h3>Deep Engineering</h3><p>Strong expertise in embedded systems, automotive protocols, and semiconductor-level development.</p></div>
+    <div class="why-card"><div class="why-icon">💰</div><h3>Affordable Tech</h3><p>Built with real-world Indian cost constraints in mind — without compromising on quality or performance.</p></div>
+    <div class="why-card"><div class="why-icon">📈</div><h3>Scalable Solutions</h3><p>Future-ready architecture for EV and smart mobility that grows as the industry grows.</p></div>
+    <div class="why-card"><div class="why-icon">🏎️</div><h3>High Performance</h3><p>Optimized at every layer — hardware, firmware, and software — for speed, reliability, and precision control.</p></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="team">
+  <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto">
+    <span class="section-tag">The People</span>
+    <h2 class="section-title">Meet the <span>Team</span></h2>
+    <p class="section-sub" style="margin:0 auto">Engineers who live and breathe embedded systems.</p>
+  </div>
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-img-wrap">
+        <img src="https://sunilbellurge.github.io/vainixsystemz/you-photo.jpg" alt="Sunil Bellurge" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="team-img-placeholder" style="display:none">👨‍💻</div>
+      </div>
+      <div class="team-info">
+        <h3>Sunil B</h3>
+        <div class="team-role">· Embedded Software Engineer</div>
+        <p class="team-desc">Specialized in Embedded Systems, Semiconductor, OS & Automotive Software.</p>
+        <div class="team-location"><span>📍</span> Bangalore, India</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-img-wrap">
+        <img src="https://sunilbellurge.github.io/vainixsystemz/abhinav.jpg" alt="Abhinav Patil" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="team-img-placeholder" style="display:none">👨‍💻</div>
+      </div>
+      <div class="team-info">
+        <h3>Abhinav Patil</h3>
+        <div class="team-role">· Embedded Software Specialist</div>
+        <p class="team-desc">Specialized in Operating Systems, Automotive Software & IoT Devices.</p>
+        <div class="team-location"><span>📍</span> Bengalore, India</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-img-wrap">
+        <img src="https://sunilbellurge.github.io/vainixsystemz/sudesh.jpg" alt="Sudesh S" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="team-img-placeholder" style="display:none">👨‍💻</div>
+      </div>
+      <div class="team-info">
+        <h3>Sudesh S</h3>
+        <div class="team-role">· Embedded Software Specialist</div>
+        <p class="team-desc">Specialized in Embedded System Architecture, Product Development & Customer Handling.</p>
+        <div class="team-location"><span>📍</span> Bengalore, India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <span class="section-tag">Get in Touch</span>
+    <h2 class="section-title">Let's <span>Work Together</span></h2>
+    <p class="section-sub">Have a project in mind? We'd love to hear about it.</p>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="contact-info">
+      <h3>Reach us directly</h3>
+      <p>Whether you're looking to build a custom embedded solution, partner on an EV project, or just want to explore what's possible — we're here.</p>
+      <div class="contact-links">
+        <a href="mailto:vanixsystemz@gmail.com" class="contact-link cl-email">
+          <div class="contact-link-icon">📧</div>
+          <div class="contact-link-text"><span class="contact-link-label">Email</span><span class="contact-link-val">vanixsystemz@gmail.com</span></div>
+        </a>
+        <a href="tel:+918867852221" class="contact-link cl-phone">
+          <div class="contact-link-icon">📞</div>
+          <div class="contact-link-text"><span class="contact-link-label">Phone</span><span class="contact-link-val">+91 9945578504</span></div>
+        </a>
+        <a href="https://wa.me/918867852221" target="_blank" class="contact-link cl-wa">
+          <div class="contact-link-icon">💬</div>
+          <div class="contact-link-text"><span class="contact-link-label">WhatsApp</span><span class="contact-link-val">Chat with us →</span></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form">
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="xyz"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="xyz@company.com"/></div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your project..."></textarea></div>
+        <button class="form-submit" onclick="alert('Thank you! We\'ll get back to you soon.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VAINIX<span>.</span></div>
+  <p>© 2026 Vainix Systems · Bangalore, India</p>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<!-- ARCHITECTURE MODALS -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-icon" id="modalIcon"></div>
+        <div>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-subtitle" id="modalSubtitle"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor = window.scrollY > 50 ? 'rgba(0,200,255,0.2)' : 'rgba(0,200,255,0.12)';
+  });
+
+  const architectures = {
+    can: {
+      icon: '🚗', iconBg: 'rgba(0,200,255,0.1)',
+      title: 'Smart CAN Logger',
+      subtitle: 'High-Level Architecture · Automotive Data Acquisition',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Vehicle Bus</div><div class="arch-layer-blocks"><div class="arch-block blue">CAN 2.0A/B</div><div class="arch-block blue">CAN-FD</div><div class="arch-block blue">LIN Bus</div><div class="arch-block blue">OBD-II Port</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Interface</div><div class="arch-layer-blocks"><div class="arch-block teal">CAN Transceiver (TJA1050)</div><div class="arch-block teal">Galvanic Isolation</div><div class="arch-block teal">ESD Protection</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Processing</div><div class="arch-layer-blocks"><div class="arch-block blue">ARM Cortex-M4 MCU</div><div class="arch-block blue">DMA Engine</div><div class="arch-block blue">HW Timestamps</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Firmware</div><div class="arch-layer-blocks"><div class="arch-block green">FreeRTOS Scheduler</div><div class="arch-block green">CAN Driver Stack</div><div class="arch-block green">Frame Parser</div><div class="arch-block green">DBC Decoder</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Storage</div><div class="arch-layer-blocks"><div class="arch-block orange">SD Card (FAT32)</div><div class="arch-block orange">Internal Flash Buffer</div><div class="arch-block orange">MDF / CSV Export</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Output</div><div class="arch-layer-blocks"><div class="arch-block purple">USB CDC (PC Link)</div><div class="arch-block purple">BLE Dashboard</div><div class="arch-block purple">Wi-Fi Cloud Sync</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '📥', title: 'Real-Time Capture', desc: 'Captures CAN frames at up to 1 Mbps with hardware-level timestamping at 1 µs resolution.' },
+        { icon: '🔍', title: 'Protocol Decoding', desc: 'Decodes CAN 2.0A/B and CAN-FD frames using loaded DBC signal definitions on-device.' },
+        { icon: '💾', title: 'Buffered Logging', desc: 'Circular SRAM buffer prevents data loss during high burst traffic; flushes continuously to SD.' },
+        { icon: '📊', title: 'Signal Analytics', desc: 'On-device statistics (min/max/avg) per PGN or message ID across an entire capture session.' },
+        { icon: '🔗', title: 'Live Streaming', desc: 'Streams live CAN frames over USB CDC or BLE to PC/mobile diagnostic tools in real time.' },
+        { icon: '⚙️', title: 'Filter & Trigger', desc: 'Configurable ID filters and event-based triggers to log only traffic matching specific conditions.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'ARM Cortex-M4 MCU (168 MHz)', desc: 'Main processing unit with dual hardware CAN controllers and DMA support.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'TJA1050 CAN Transceiver', desc: 'Industry-standard high-speed CAN bus transceiver with integrated ESD and fault protection.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'FreeRTOS', desc: 'Real-time OS managing CAN Rx/Tx, logging, USB, and BLE tasks with deterministic scheduling.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'CAN Driver Stack', desc: 'ISO 11898 compliant low-level driver with DMA-backed RX FIFO for zero-loss capture.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'DBC Signal Parser', desc: 'Parses database files to decode raw CAN bytes into named, scaled physical values.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'UDS / OBD-II', desc: 'Unified Diagnostic Services and OBD-II PID support for vehicle ECU interrogation.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'SDIO Interface (4-bit)', desc: 'High-speed SD card interface enabling continuous full-rate logging without data loss.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'BLE / Wi-Fi (ESP32)', desc: 'Co-processor providing wireless dashboard streaming and OTA firmware update capability.' },
+      ]
+    },
+
+    ev: {
+      icon: '⚡', iconBg: 'rgba(0,255,153,0.1)',
+      title: 'EV Charging Systems',
+      subtitle: 'High-Level Architecture · Smart Charging Infrastructure',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Grid / Power</div><div class="arch-layer-blocks"><div class="arch-block blue">AC Grid Input (3-Phase)</div><div class="arch-block blue">Solar PV Input</div><div class="arch-block blue">Battery ESS</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Power Stage</div><div class="arch-layer-blocks"><div class="arch-block teal">PFC Rectifier</div><div class="arch-block teal">LLC Resonant DC-DC</div><div class="arch-block teal">Isolation Transformer</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Control</div><div class="arch-layer-blocks"><div class="arch-block blue">DSP Controller (TMS320)</div><div class="arch-block blue">PWM Generation</div><div class="arch-block blue">Fault Detection Logic</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Firmware</div><div class="arch-layer-blocks"><div class="arch-block green">IEC 61851 State Machine</div><div class="arch-block green">CHAdeMO / CCS Stack</div><div class="arch-block green">Smart Load Balancer</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Comms</div><div class="arch-layer-blocks"><div class="arch-block orange">OCPP 1.6 / 2.0.1</div><div class="arch-block orange">4G/LTE Modem</div><div class="arch-block orange">RFID Authentication</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Cloud / UI</div><div class="arch-layer-blocks"><div class="arch-block purple">CSMS Backend</div><div class="arch-block purple">Mobile App</div><div class="arch-block purple">Energy Dashboard</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '🔋', title: 'Smart Load Management', desc: 'Dynamically adjusts per-port charging current based on grid demand and solar availability.' },
+        { icon: '📡', title: 'OCPP Communication', desc: 'Full OCPP 1.6 / 2.0.1 compliance for central system integration and remote station management.' },
+        { icon: '🔐', title: 'User Authentication', desc: 'RFID card, QR code, and whitelist-based auth with per-session energy metering and billing.' },
+        { icon: '⚠️', title: 'Fault & Safety Logic', desc: 'Ground fault, over-temperature, over-voltage, and relay welding detection with safe shutdown.' },
+        { icon: '📊', title: 'Energy Metering', desc: 'MID-certified meter integration with accurate per-session kWh reporting for billing compliance.' },
+        { icon: '🌐', title: 'Remote Monitoring', desc: 'Real-time station health, uptime tracking, and session data via cloud dashboard and mobile app.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'DSP Controller (TMS320F28xxx)', desc: 'High-speed DSP for real-time PWM control of PFC stage and LLC resonant DC-DC converter.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'PFC + LLC Power Stage', desc: 'Active PFC with >0.99 PF and LLC resonant topology achieving >94% AC-DC efficiency.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'IEC 61851 State Machine', desc: 'EV pilot signal (CP/PP) control logic for full charge session sequencing per standard.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'CHAdeMO / CCS / AC Type-2', desc: 'Multi-standard connector support via software-configurable protocol adapters.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'OCPP 1.6 / 2.0.1 Stack', desc: 'Open Charge Point Protocol over WebSocket/TLS for Central Management System connectivity.' },
+        { badge: 'HW', badgeClass: 'hw', name: '4G LTE Modem', desc: 'Always-on cellular connectivity for telemetry, OTA firmware updates, and remote diagnostics.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'CSMS Cloud Backend', desc: 'Charge Station Management System with REST API, WebSocket feeds, and analytics dashboard.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'Mobile App (Flutter)', desc: 'Cross-platform app for EV drivers: locate stations, initiate sessions, and view billing history.' },
+      ]
+    },
+
+    iot: {
+      icon: '📡', iconBg: 'rgba(255,107,53,0.1)',
+      title: 'IoT Monitoring Devices',
+      subtitle: 'High-Level Architecture · Industrial Sensor Network',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Sensing</div><div class="arch-layer-blocks"><div class="arch-block blue">Temp / Humidity</div><div class="arch-block blue">Vibration / Shock</div><div class="arch-block blue">Gas / Air Quality</div><div class="arch-block blue">Current / Voltage</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Signal Cond.</div><div class="arch-layer-blocks"><div class="arch-block teal">24-bit Sigma-Delta ADC</div><div class="arch-block teal">Anti-Alias Filter</div><div class="arch-block teal">Level Shifter</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Edge MCU</div><div class="arch-layer-blocks"><div class="arch-block blue">Ultra-Low-Power MCU</div><div class="arch-block blue">Sleep/Wake Scheduler</div><div class="arch-block blue">Edge Analytics</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Connectivity</div><div class="arch-layer-blocks"><div class="arch-block orange">LoRaWAN</div><div class="arch-block orange">NB-IoT</div><div class="arch-block orange">BLE Mesh</div><div class="arch-block orange">Wi-Fi</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Gateway</div><div class="arch-layer-blocks"><div class="arch-block green">LoRa Gateway / Edge Hub</div><div class="arch-block green">Data Aggregation</div><div class="arch-block green">Local MQTT Broker</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Cloud / App</div><div class="arch-layer-blocks"><div class="arch-block purple">AWS IoT Core / Azure IoT</div><div class="arch-block purple">Time-Series DB</div><div class="arch-block purple">Alerting & Dashboard</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '🌡️', title: 'Multi-Sensor Acquisition', desc: 'Simultaneous multi-channel acquisition from heterogeneous sensors over I²C, SPI, and UART.' },
+        { icon: '🔋', title: 'Ultra-Low Power', desc: 'Sub-10 µA sleep current with duty-cycled wake-up enabling multi-year battery life on AA cells.' },
+        { icon: '📶', title: 'Multi-Protocol Radio', desc: 'Selectable radio: LoRaWAN Class A/C, NB-IoT, BLE 5.0 mesh — chosen per deployment need.' },
+        { icon: '🧮', title: 'Edge Pre-Processing', desc: 'On-device threshold detection, moving averages, and anomaly flagging before cloud transmission.' },
+        { icon: '🔒', title: 'Secure Boot & OTA', desc: 'AES-128 encrypted payloads and signed OTA firmware updates over LPWAN or Wi-Fi.' },
+        { icon: '🗃️', title: 'Local Data Buffer', desc: 'Flash-backed queue stores up to 72 hours of readings during connectivity outages.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'STM32L Ultra-Low Power MCU', desc: 'ARM Cortex-M0+ with 4 µA stop mode, hardware AES accelerator, and RTC wake-up.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'Semtech SX1276 LoRa Transceiver', desc: 'Long-range 868/915 MHz radio module supporting full LoRaWAN Class A and C.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'FreeRTOS + Low Power Manager', desc: 'Tickless idle scheduler with peripheral clock gating for minimal active current draw.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'MQTT / CoAP', desc: 'Lightweight messaging protocols for efficient telemetry delivery to cloud broker endpoints.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'Node-RED / AWS IoT Rules', desc: 'Visual flow engine and rules engine for data routing, transformation, and alert delivery.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'InfluxDB + Grafana', desc: 'Time-series data store with real-time visualization dashboards and configurable alert thresholds.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'MPPT Solar Energy Harvester', desc: 'Optional solar panel with maximum power point tracking for fully self-powered outdoor nodes.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'ATECC608 Secure Element', desc: 'Hardware root-of-trust for device identity, private key storage, and encrypted communications.' },
+      ]
+    },
+
+    v2x: {
+      icon: '🚘', iconBg: 'rgba(160,100,255,0.1)',
+      title: 'V2V & V2X Communication',
+      subtitle: 'High-Level Architecture · Cooperative Intelligent Transport',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">V2X Entities</div><div class="arch-layer-blocks"><div class="arch-block blue">Ego Vehicle (OBU)</div><div class="arch-block blue">Other Vehicles</div><div class="arch-block blue">RSU Infrastructure</div><div class="arch-block blue">Pedestrian Device</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Radio</div><div class="arch-layer-blocks"><div class="arch-block teal">DSRC / 802.11p (5.9 GHz)</div><div class="arch-block teal">C-V2X (PC5 Sidelink)</div><div class="arch-block teal">GNSS Receiver</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Protocol Stack</div><div class="arch-layer-blocks"><div class="arch-block purple">ETSI ITS-G5 Stack</div><div class="arch-block purple">SAE J2735 / J2945</div><div class="arch-block purple">ETSI TS 103 097 Security</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Messages</div><div class="arch-layer-blocks"><div class="arch-block blue">BSM (Basic Safety)</div><div class="arch-block blue">CAM (Cooperative Awareness)</div><div class="arch-block blue">DENM (Event Notification)</div><div class="arch-block blue">SPAT / MAP</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Application</div><div class="arch-layer-blocks"><div class="arch-block green">Collision Warning</div><div class="arch-block green">Platooning Logic</div><div class="arch-block green">Traffic Signal Advisory</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Vehicle Bus</div><div class="arch-layer-blocks"><div class="arch-block orange">CAN / CAN-FD Interface</div><div class="arch-block orange">ADAS Sensor Fusion</div><div class="arch-block orange">HMI / Cluster Alert</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '📍', title: 'Cooperative Positioning', desc: 'Sub-meter accuracy via GNSS fusion and peer BSM/CAM cross-validation for precise location.' },
+        { icon: '⚠️', title: 'Collision Warning', desc: 'Real-time trajectory prediction and Time-to-Collision computation triggering FCWS and LCWS alerts.' },
+        { icon: '🚦', title: 'Signal Phase & Timing', desc: 'Receives SPAT/MAP from smart intersections and provides green-wave speed advisory to driver.' },
+        { icon: '🚛', title: 'Platooning Support', desc: 'Longitudinal gap control via V2V data exchange for cooperative adaptive cruise control.' },
+        { icon: '🔐', title: 'PKI Security', desc: 'Pseudonym certificate-based message signing/verification per ETSI TS 103 097 standard.' },
+        { icon: '📡', title: 'Dual-Mode Radio', desc: 'Supports both DSRC 802.11p and C-V2X PC5 sidelink in a single unified OBU hardware design.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'V2X OBU (NXP RoadLink / Cohda MK6)', desc: 'Automotive-grade 5.9 GHz DSRC/C-V2X radio with dedicated MAC for short-range comms.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'u-blox ZED-F9P GNSS', desc: 'Multi-constellation RTK receiver providing L1/L2 GPS, GLONASS, and Galileo positioning.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'ETSI ITS-G5 / SAE J2735', desc: 'Full message set encoding/decoding in ASN.1 UPER for BSM, CAM, DENM, SPAT, and MAP.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'Threat Assessment Engine', desc: 'Kinematic model and TTC calculator for real-time multi-vehicle collision risk assessment.' },
+        { badge: 'OS', badgeClass: 'os', name: 'QNX Neutrino RTOS', desc: 'Hard real-time OS ensuring V2X message Tx/Rx latency under 5 ms for safety reactions.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'ETSI TS 103 097 / IEEE 1609.2', desc: 'Certificate-based signing, verification, and pseudonym management for V2X message trust.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'CAN-FD Interface', desc: 'Connects OBU to in-vehicle CAN-FD bus for ADAS handoff, HMI warnings, and ECU commands.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'RSU Cloud Backend', desc: 'Centralized roadside unit management with traffic analytics and SPAT/MAP broadcast orchestration.' },
+      ]
+    },
+
+    hpc: {
+      icon: '🖥️', iconBg: 'rgba(255,200,0,0.1)',
+      title: 'High Performance Computer for Automotive',
+      subtitle: 'High-Level Architecture · Centralized Compute for ADAS & Autonomous Driving',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Sensors</div><div class="arch-layer-blocks"><div class="arch-block blue">Camera Array (6×8MP)</div><div class="arch-block blue">360° LiDAR</div><div class="arch-block blue">77 GHz Radar</div><div class="arch-block blue">IMU / GNSS</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Serializer</div><div class="arch-layer-blocks"><div class="arch-block teal">GMSL2 / FPD-Link III</div><div class="arch-block teal">PCIe 4.0 NVMe</div><div class="arch-block teal">100BASE-T1 Ethernet</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">HPC Core</div><div class="arch-layer-blocks"><div class="arch-block yellow">Multi-Core SoC (A78AE)</div><div class="arch-block yellow">GPU / Neural Accelerator</div><div class="arch-block yellow">Safety Island (R52 Lockstep)</div><div class="arch-block yellow">Hardware Security Module</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">OS / Hypervisor</div><div class="arch-layer-blocks"><div class="arch-block green">Type-1 Hypervisor (QNX / Xen)</div><div class="arch-block green">AUTOSAR Adaptive (AP)</div><div class="arch-block green">Linux RT (PREEMPT-RT)</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Middleware</div><div class="arch-layer-blocks"><div class="arch-block orange">SOME/IP Service Discovery</div><div class="arch-block orange">DDS / ROS 2</div><div class="arch-block orange">ara::com (AUTOSAR)</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Applications</div><div class="arch-layer-blocks"><div class="arch-block purple">Sensor Fusion Pipeline</div><div class="arch-block purple">DNN Object Detection</div><div class="arch-block purple">Path Planning</div><div class="arch-block purple">V2X Integration</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Vehicle Bus</div><div class="arch-layer-blocks"><div class="arch-block blue">1000BASE-T1 Automotive Ethernet</div><div class="arch-block blue">CAN-FD Gateway</div><div class="arch-block blue">FlexRay Interface</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '🎯', title: 'Sensor Fusion', desc: 'Kalman-filter-based fusion of camera, LiDAR, and radar data into a unified 3D object/occupancy model.' },
+        { icon: '🧠', title: 'DNN Inference', desc: 'On-board neural accelerator runs YOLOv8/BEVFusion-class models at >30 fps for object detection.' },
+        { icon: '🗺️', title: 'Path Planning', desc: 'Hierarchical planner: HD-map global routing + local motion planning with dynamic obstacle avoidance.' },
+        { icon: '🛡️', title: 'Functional Safety (ISO 26262)', desc: 'ASIL-D safety island runs lockstep watchdog, safety monitors, and fallback degrade-mode logic.' },
+        { icon: '🔄', title: 'Virtualization', desc: 'Type-1 hypervisor partitions safety-critical AUTOSAR AP domain from best-effort Linux AI workloads.' },
+        { icon: '🔧', title: 'OTA Update Manager', desc: 'AUTOSAR UCM handles signed, rollback-protected software package updates over-the-air.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'ARM Cortex-A78AE SoC (NVIDIA Orin / Renesas R-Car)', desc: 'Automotive-qualified heterogeneous SoC with multi-core CPU, GPU, deep learning accelerator, and integrated safety island.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'GMSL2 / FPD-Link III Deserializers', desc: 'High-bandwidth camera serializer links delivering 6+ streams at up to 4K over automotive coax.' },
+        { badge: 'OS', badgeClass: 'os', name: 'Type-1 Hypervisor (QNX / Xen)', desc: 'Bare-metal hypervisor providing hard isolation between safety-critical and non-safety virtual machines.' },
+        { badge: 'OS', badgeClass: 'os', name: 'AUTOSAR Adaptive Platform', desc: 'POSIX-based Adaptive AUTOSAR runtime with ara::com, ara::exec, and ara::diag service interfaces.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'ROS 2 / DDS Middleware', desc: 'Robot Operating System 2 with DDS transport enabling high-throughput sensor and planning IPC.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'SOME/IP + DoIP', desc: 'Service-oriented middleware for ECU discovery, Ethernet diagnostics, and remote procedure calls.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'Safety Island (Cortex-R52 Lockstep)', desc: 'Dedicated ASIL-D safety MCU running system watchdogs, monitors, and safe-state transition logic.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'Hardware Security Module (HSM)', desc: 'On-chip HSM for secure boot chain, key storage, MAC/cipher acceleration, and SecOC message auth.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'AUTOSAR UCM (OTA Manager)', desc: 'Update & Configuration Management module for cryptographically signed OTA package orchestration.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: '1000BASE-T1 Automotive Ethernet', desc: 'IEEE 802.3bp single-pair gigabit Ethernet backbone for HPC-to-zone-controller communication.' },
+      ]
+    },
+
+    midaas: {
+      icon: '💎', iconBg: 'rgba(0,230,180,0.1)',
+      title: 'Midaas',
+      subtitle: 'High-Level Architecture · Modular Intelligent Data Acquisition & Analytics System',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Input Layer</div><div class="arch-layer-blocks"><div class="arch-block blue">CAN / CAN-FD Channels</div><div class="arch-block blue">Analog Signal Inputs</div><div class="arch-block blue">Digital I/O</div><div class="arch-block blue">Serial / UART</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Acquisition</div><div class="arch-layer-blocks"><div class="arch-block teal">Multi-Channel ADC Frontend</div><div class="arch-block teal">Hardware Timestamping</div><div class="arch-block teal">Sync Engine (PPS / GPS)</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Processing</div><div class="arch-layer-blocks"><div class="arch-block mint">ARM Cortex-A + FPGA Co-Proc</div><div class="arch-block mint">Signal Conditioning DSP</div><div class="arch-block mint">DBC / A2L Decoder</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Analytics</div><div class="arch-layer-blocks"><div class="arch-block green">Edge Anomaly Detection</div><div class="arch-block green">Statistical Engine</div><div class="arch-block green">Threshold & Alert Manager</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Storage</div><div class="arch-layer-blocks"><div class="arch-block orange">NVMe / SD Circular Buffer</div><div class="arch-block orange">MDF4 / CSV / Parquet</div><div class="arch-block orange">Indexed Query Engine</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Output</div><div class="arch-layer-blocks"><div class="arch-block purple">REST API / WebSocket</div><div class="arch-block purple">Cloud Telemetry (MQTT)</div><div class="arch-block purple">PC Dashboard (USB / ETH)</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '📥', title: 'Modular Acquisition', desc: 'Hot-swappable input modules for CAN, analog, digital, and serial channels — configurable per deployment.' },
+        { icon: '⏱️', title: 'Precision Timestamping', desc: 'Hardware-level nanosecond timestamps synchronized via GPS PPS signal for multi-channel correlation.' },
+        { icon: '🧮', title: 'Edge Analytics', desc: 'Real-time statistical processing and anomaly detection running on-device without cloud dependency.' },
+        { icon: '🗂️', title: 'MDF4 Logging', desc: 'Industry-standard MDF4 file format output compatible with CANalyzer, MATLAB, and Python toolchains.' },
+        { icon: '🔔', title: 'Smart Alerting', desc: 'Configurable threshold and pattern-based triggers for proactive fault detection and event capture.' },
+        { icon: '🌐', title: 'Cloud Integration', desc: 'Secure MQTT/REST streaming of processed telemetry to AWS, Azure, or on-premise data platforms.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'ARM Cortex-A + FPGA SoC (Xilinx Zynq)', desc: 'Heterogeneous processing: ARM application core for analytics and FPGA fabric for deterministic I/O.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'Multi-Channel 24-bit ADC', desc: 'Simultaneous sampling ADC frontend with anti-alias filtering for precision analog signal acquisition.' },
+        { badge: 'HW', badgeClass: 'hw', name: 'GPS Disciplined Oscillator', desc: 'PPS-synchronized clock source providing sub-microsecond timestamp accuracy across all channels.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'FPGA Acquisition Core (VHDL)', desc: 'Custom FPGA IP for deterministic multi-protocol capture with hardware timestamping and DMA offload.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'Signal Processing DSP Library', desc: 'On-device FFT, filtering, and statistical analysis pipeline optimized for embedded ARM NEON.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'MDF4 / A2L / DBC Support', desc: 'Native parsing and export of automotive measurement formats for direct tool-chain compatibility.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'REST API + WebSocket Server', desc: 'Embedded HTTP/WebSocket server for live data streaming and remote configuration via browser or script.' },
+        { badge: 'OS', badgeClass: 'os', name: 'Linux RT (PREEMPT-RT)', desc: 'Real-time Linux kernel with priority-inheritance mutexes ensuring deterministic acquisition scheduling.' },
+      ]
+    },
+
+    zonal: {
+      icon: '🗂️', iconBg: 'rgba(255,100,180,0.1)',
+      title: 'Zonal Architecture',
+      subtitle: 'High-Level Architecture · Software-Defined Vehicle E/E Topology',
+      diagram: `<div class="arch-diagram"><div class="arch-diagram-title">System Architecture Overview</div><div class="arch-layers">
+        <div class="arch-layer"><div class="arch-layer-label">Central Compute</div><div class="arch-layer-blocks"><div class="arch-block pink">Vehicle Computer (HPC)</div><div class="arch-block pink">OTA Manager</div><div class="arch-block pink">Cybersecurity Gateway</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Backbone</div><div class="arch-layer-blocks"><div class="arch-block blue">1000BASE-T1 Automotive Ethernet</div><div class="arch-block blue">TSN (Time-Sensitive Networking)</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Zone Controllers</div><div class="arch-layer-blocks"><div class="arch-block teal">Zone A — Front</div><div class="arch-block teal">Zone B — Rear</div><div class="arch-block teal">Zone C — Left</div><div class="arch-block teal">Zone D — Right</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Local Bus</div><div class="arch-layer-blocks"><div class="arch-block orange">CAN-FD (Actuators)</div><div class="arch-block orange">LIN (Low-Speed Sensors)</div><div class="arch-block orange">100BASE-T1 (Cameras / Radar)</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Endpoints</div><div class="arch-layer-blocks"><div class="arch-block green">Smart Actuators</div><div class="arch-block green">Sensor Nodes</div><div class="arch-block green">Body Control Modules</div><div class="arch-block green">Lighting / HVAC ECUs</div></div></div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer"><div class="arch-layer-label">Software</div><div class="arch-layer-blocks"><div class="arch-block purple">AUTOSAR Classic / Adaptive</div><div class="arch-block purple">SOME/IP Service Mesh</div><div class="arch-block purple">Diagnostic over IP (DoIP)</div></div></div>
+      </div></div>`,
+      functionality: [
+        { icon: '🗺️', title: 'Geographic Zoning', desc: 'Vehicle partitioned into physical zones (front, rear, left, right) each served by a dedicated zone controller MCU.' },
+        { icon: '📉', title: 'Wiring Harness Reduction', desc: 'Centralized zone controllers eliminate point-to-point ECU wiring, cutting harness weight by up to 50%.' },
+        { icon: '🔄', title: 'Software-Defined Functions', desc: 'Vehicle features deployed as software services over Ethernet, enabling OTA feature addition and updates.' },
+        { icon: '⏱️', title: 'TSN Determinism', desc: 'IEEE 802.1 Time-Sensitive Networking ensures bounded latency for safety-critical actuator commands.' },
+        { icon: '🔐', title: 'Cyber Security Gateway', desc: 'Central firewall and IDS enforcing AUTOSAR SecOC message authentication and zone traffic isolation.' },
+        { icon: '🔧', title: 'Unified Diagnostics', desc: 'DoIP enables remote UDS diagnostics across all zone controllers over the Ethernet backbone.' },
+      ],
+      components: [
+        { badge: 'HW', badgeClass: 'hw', name: 'Zone Controller MCU (NXP S32G / Renesas RH850)', desc: 'Automotive-qualified multi-core MCU acting as local gateway, I/O hub, and service orchestrator per zone.' },
+        { badge: 'HW', badgeClass: 'hw', name: '1000BASE-T1 Automotive Ethernet Switch', desc: 'In-vehicle Ethernet backbone switch with TSN support for deterministic multi-zone communication.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'IEEE 802.1 TSN (AS / Qbv / Qav)', desc: 'Time-aware shaping and scheduling protocols guaranteeing sub-millisecond latency for safety traffic.' },
+        { badge: 'OS', badgeClass: 'os', name: 'AUTOSAR Classic + Adaptive', desc: 'Classic AUTOSAR on zone MCUs for real-time control; Adaptive AUTOSAR on HPC for service-oriented apps.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'SOME/IP + Service Discovery', desc: 'Service-oriented communication layer enabling dynamic ECU service registration and consumption.' },
+        { badge: 'SW', badgeClass: 'sw', name: 'OTA Update Manager (AUTOSAR UCM)', desc: 'Orchestrates secure, differential OTA software updates across all zone controllers simultaneously.' },
+        { badge: 'FW', badgeClass: 'fw', name: 'SecOC (Secure Onboard Communication)', desc: 'Message authentication codes on every safety-relevant CAN/Ethernet frame for runtime integrity.' },
+        { badge: 'PROTO', badgeClass: 'proto', name: 'DoIP (ISO 13400)', desc: 'Diagnostics over IP protocol enabling remote UDS sessions to any ECU through the Ethernet backbone.' },
+      ]
+    }
+  };
+
+  function openModal(key) {
+    const d = architectures[key];
+    if (!d) return;
+    document.getElementById('modalIcon').textContent = d.icon;
+    document.getElementById('modalIcon').style.background = d.iconBg;
+    document.getElementById('modalTitle').textContent = d.title;
+    document.getElementById('modalSubtitle').textContent = d.subtitle;
+
+    const funcHTML = d.functionality.map(f => `
+      <div class="func-item">
+        <div class="func-item-icon">${f.icon}</div>
+        <h4>${f.title}</h4>
+        <p>${f.desc}</p>
+      </div>`).join('');
+
+    const compHTML = d.components.map(c => `
+      <div class="comp-item">
+        <span class="comp-badge ${c.badgeClass}">${c.badge}</span>
+        <div class="comp-info">
+          <h4>${c.name}</h4>
+          <p>${c.desc}</p>
+        </div>
+      </div>`).join('');
+
+    document.getElementById('modalBody').innerHTML = `
+      ${d.diagram}
+      <div class="modal-section">
+        <div class="modal-section-title">Key Functionality</div>
+        <div class="func-grid">${funcHTML}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Components & Technologies</div>
+        <div class="comp-list">${compHTML}</div>
+      </div>`;
+
+    document.getElementById('modalBox').scrollTop = 0;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOnBg(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
