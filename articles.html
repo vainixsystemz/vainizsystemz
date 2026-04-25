@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Insights | Vainix Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        header {
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #64c8ff;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #64c8ff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #64c8ff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(100, 200, 255, 0.1);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #64c8ff 0%, #a0d8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.05rem;
+            color: #b0b0b0;
+        }
+
+        .articles-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .article-item {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .article-item:hover {
+            border-color: #64c8ff;
+            background: rgba(30, 30, 50, 1);
+            box-shadow: 0 10px 30px rgba(100, 200, 255, 0.1);
+        }
+
+        .article-header {
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .article-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .article-meta {
+            flex: 1;
+        }
+
+        .article-category {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-title {
+            font-size: 1.6rem;
+            color: #64c8ff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .article-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .article-content {
+            padding: 0 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #d0d0d0;
+        }
+
+        .article-content.active {
+            padding: 2rem;
+            max-height: 3000px;
+        }
+
+        .article-content h3 {
+            color: #64c8ff;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+
+        .article-content h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+
+        .article-content strong {
+            color: #64c8ff;
+        }
+
+        .highlight-box {
+            background: rgba(100, 200, 255, 0.08);
+            border-left: 4px solid #64c8ff;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #64c8ff;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(100, 200, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            color: #a0d8ff;
+        }
+
+        .toggle-btn.active::after {
+            content: ' ▲';
+        }
+
+        .toggle-btn:not(.active)::after {
+            content: ' ▼';
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .article-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .article-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">VAINIX.</a>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>Technical Insights</h1>
+            <p>Deep dives into the technologies shaping the future of embedded systems and automotive software</p>
+        </div>
+
+        <div class="articles-list">
+            <!-- Article 1: CAN Bus -->
+            <div class="article-item">
+                <div class="article-header" onclick="toggleArticle(this)">
+                    <div class="article-icon">🚗</div>
+                    <div class="article-meta">
+                        <div class="article-category">CAN Bus Technology</div>
+                        <div class="article-title">CAN Bus in 2025: Why the 40-Year-Old Protocol Still Rules Automotive</div>
+                        <div class="article-date">Mar 2025</div>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <h3>Introduction: The Unlikely Survivor</h3>
+                    <p>The Controller Area Network (CAN) protocol was introduced in 1986 by Robert Bosch GmbH for vehicle communication. Nearly 40 years later, despite newer alternatives like Ethernet, FlexRay, and LIN, CAN remains the de facto standard in automotive networks worldwide. This article explores why CAN has proven so resilient and how Vainix Systems is extending its capabilities for the next generation of vehicles.</p>
+
+                    <h3>Why CAN Dominates</h3>
+                    <p><strong>Proven Reliability:</strong> CAN has undergone decades of real-world testing in millions of vehicles. Its simplicity and robustness have made it the industry standard. Engineers trust CAN because it has a track record spanning generations of vehicles.</p>
+                    <p><strong>Cost-Effectiveness:</strong> CAN transceivers and controllers are commodity components with extremely low unit costs. A single twisted-pair cable replaces multiple point-to-point connections, reducing wiring harness weight and cost by 30-40%.</p>
+                    <p><strong>Deterministic Communication:</strong> Unlike Ethernet (which uses collision avoidance), CAN uses a priority-based arbitration mechanism. Higher-priority frames always get transmitted first, making CAN ideal for safety-critical signals in braking and steering systems.</p>
+                    <p><strong>Fault Tolerance:</strong> CAN automatically detects and handles transmission errors through bit stuffing and CRC validation. A node that detects an error can signal the network, allowing graceful degradation rather than silent failure.</p>
+
+                    <div class="highlight-box">
+                        <strong>Key Insight:</strong>
+                        CAN's limitation is bandwidth (1 Mbps max), but for mission-critical vehicle signals, bandwidth is rarely the bottleneck—determinism and reliability are.
+                    </div>
+
+                    <h3>The CAN Evolution: 2.0 vs FD</h3>
+                    <p>CAN FD (Flexible Data-rate) emerged around 2012, offering variable frame lengths and higher speeds. However, adoption has been slower than expected because:</p>
+                    <ul>
+                        <li>Legacy vehicles still dominate the market; backward compatibility is critical.</li>
+                        <li>CAN 2.0A/B remains sufficient for most vehicle signals (100+ signals per vehicle typically).</li>
+                        <li>The added complexity of CAN FD doesn't justify the cost premium for many OEMs.</li>
+                    </ul>
+                    <p>We expect CAN FD adoption to accelerate as autonomous vehicles require higher-frequency sensor data sharing, but classic CAN will remain prevalent for at least another decade.</p>
+
+                    <h3>Conclusion</h3>
+                    <p>The 40-year-old CAN protocol isn't a relic—it's a proven solution that solves real problems exceptionally well. As new technologies emerge, CAN's role will evolve, but its reliability, determinism, and cost-effectiveness ensure it will remain integral to automotive systems for decades to come.</p>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleArticle(this.parentElement)">Read Full Article</button>
+            </div>
+
+            <!-- Article 2: EV Charging -->
+            <div class="article-item">
+                <div class="article-header" onclick="toggleArticle(this)">
+                    <div class="article-icon">⚡</div>
+                    <div class="article-meta">
+                        <div class="article-category">EV Technology</div>
+                        <div class="article-title">Building India-First EV Charging Infrastructure: The Engineering Challenges</div>
+                        <div class="article-date">Feb 2025</div>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <h3>The Indian EV Charging Paradox</h3>
+                    <p>India's EV market is exploding—sales projections show 30% of new vehicle sales will be electric by 2030. Yet, charging infrastructure lags drastically. Only ~50,000 public chargers exist across India, compared to 1M+ in China. The challenge isn't just scale; it's the unique engineering constraints of building EV charging systems for India's electricity grid, climate, and economics.</p>
+
+                    <h3>Challenge 1: Grid Volatility and Load Management</h3>
+                    <p><strong>The Problem:</strong> India's electricity grid is inherently unstable. Voltage fluctuations between 180V-240V are common. Peak demand spikes coincide with cooking hours (6-9 PM), when adding a 50 kW fast charger risks grid collapse in smaller cities.</p>
+                    <p><strong>The Solution:</strong> Unlike chargers designed for Europe's stable grids, our EV Charging System implements dynamic load balancing:</p>
+                    <ul>
+                        <li><strong>Real-Time Monitoring:</strong> Voltage and frequency sensors continuously monitor grid health. The charger adapts output power within milliseconds.</li>
+                        <li><strong>Peak Shaving:</strong> The system communicates with grid operators (via cellular) to shift charging away from peak hours, offering users discounted rates for off-peak charging.</li>
+                        <li><strong>Micro-Grid Ready:</strong> In areas with unreliable grid supply, our charger can integrate with solar panels and battery storage, operating semi-autonomously.</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>Design Insight:</strong>
+                        A charger rated for 50 kW in Germany might only deliver 30-35 kW in a typical Indian city without grid support. Our firmware throttles dynamically.
+                    </div>
+
+                    <h3>Challenge 2: Thermal Management in India's Climate</h3>
+                    <p><strong>The Problem:</strong> India's summer temperatures routinely exceed 40°C. Power conversion inherently generates heat—a 50 kW charger dissipates ~10 kW as thermal energy.</p>
+                    <p><strong>Our Approach:</strong></p>
+                    <ul>
+                        <li><strong>Passive Cooling Design:</strong> Oversized aluminum heatsinks and thermal pads maximize passive heat dissipation, reducing fan dependency.</li>
+                        <li><strong>Thermal Throttling:</strong> If internal temps exceed 70°C, the charger automatically reduces output power.</li>
+                        <li><strong>Night Operation Preference:</strong> Our firmware includes a "cool charging" feature that recommends users schedule charging for cooler nighttime hours.</li>
+                    </ul>
+
+                    <h3>Challenge 3: Cost and Affordability</h3>
+                    <p><strong>The Problem:</strong> A typical 50 kW DC fast charger costs $50,000-$70,000 in Europe. For India, this price point is economically unviable.</p>
+                    <p><strong>Our Cost-Engineering Strategy:</strong></p>
+                    <ul>
+                        <li><strong>Component Localization:</strong> We source power semiconductors and transformers from Indian suppliers when possible, cutting import duties.</li>
+                        <li><strong>Modular Design:</strong> A 50 kW charger is built from 10 kW modules. Repair or upgrade requires swapping just one module.</li>
+                        <li><strong>Open Protocol Stack:</strong> We use open-source OCPP 1.6, avoiding licensing fees, and our software stack is optimized for single-board computers.</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>Target Cost:</strong>
+                        Our 50 kW DC charger targets $25,000-$30,000 unit cost, making deployment economically viable for EV charging networks in India.
+                    </div>
+
+                    <h3>Conclusion</h3>
+                    <p>Building EV charging infrastructure for India isn't simply repackaging European designs with lower prices. It requires rethinking every component for grid volatility, thermal extremes, cost constraints, and connectivity challenges. At Vainix, we're building the infrastructure for India's EV revolution.</p>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleArticle(this.parentElement)">Read Full Article</button>
+            </div>
+
+            <!-- Article 3: Zonal Architecture -->
+            <div class="article-item">
+                <div class="article-header" onclick="toggleArticle(this)">
+                    <div class="article-icon">🗂️</div>
+                    <div class="article-meta">
+                        <div class="article-category">Architecture Design</div>
+                        <div class="article-title">Zonal vs Domain Architecture: The Shift Redefining Modern Vehicles</div>
+                        <div class="article-date">Jan 2025</div>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <h3>The Architecture Transformation</h3>
+                    <p>For 50+ years, vehicle electrical/electronic architecture has followed a domain-based structure: Powertrain Domain (engine, transmission), Chassis Domain (brakes, suspension), and Body Domain (doors, windows, lighting). This siloed approach made sense when vehicles had 20-30 ECUs. Today's vehicles have 100+ ECUs, and this structure has become a bottleneck for autonomous and software-defined vehicles.</p>
+                    <p>Zonal Architecture represents a fundamental reimagining of how vehicles are organized internally. Instead of domains, vehicles are divided into geographic zones (Front, Rear, Left, Right, Center). Each zone has a Zone Controller that manages all functions in that region.</p>
+
+                    <h3>Domain Architecture: What It Was</h3>
+                    <p><strong>Structure:</strong> ECUs clustered by function rather than location.</p>
+                    <ul>
+                        <li>Powertrain ECU (engine bay, typically) controls engine, transmission, hybrid systems.</li>
+                        <li>Chassis ECU (usually under the dash) manages ABS, stability control, suspension.</li>
+                        <li>Body ECU (various locations) handles doors, windows, lighting, wipers.</li>
+                    </ul>
+                    <p><strong>Communication:</strong> ECUs connected via multiple bus networks (CAN, FlexRay, LIN) with a central gateway router.</p>
+                    <p><strong>Wiring:</strong> Signals travel from sensors and actuators to domain ECUs, often traversing the entire vehicle. A sensor in the front-left wheel may send data via a long harness to the rear Chassis ECU.</p>
+
+                    <div class="highlight-box">
+                        <strong>Key Challenge:</strong>
+                        A modern high-end vehicle has 5-8 km of wiring harness. 30-40% of that is redundancy and cross-domain communication paths. Reducing wiring isn't just about cost; it saves 50-100 kg of weight and improves reliability.
+                    </div>
+
+                    <h3>Zonal Architecture: The New Paradigm</h3>
+                    <p><strong>Structure:</strong> ECUs placed physically near the systems they control.</p>
+                    <ul>
+                        <li>Front Zone Controller (behind the front bumper): manages front headlights, sensors, suspension, cooling fans.</li>
+                        <li>Rear Zone Controller (above rear axle): rear lights, brake distribution, suspension.</li>
+                        <li>Left/Right Zone Controllers (in door panels): power windows, mirrors, door locks for that side.</li>
+                        <li>Central Zone Controller (under the seat or dashboard): propulsion, HVAC, infotainment, cloud connectivity.</li>
+                    </ul>
+
+                    <h3>The Benefits of Zonal Architecture</h3>
+                    <p><strong>Cost Reduction:</strong> Wiring harness savings of $300-$500 per vehicle. Weight reduction of 50-100 kg improves fuel efficiency and EV range by 3-5%.</p>
+                    <p><strong>Software-Defined Vehicle (SDV) Enablement:</strong> Software runs on a centralized platform and sends commands to zone controllers. Over-the-air (OTA) updates push new features across all zones simultaneously.</p>
+                    <p><strong>Enhanced Safety and Redundancy:</strong> If a zone controller fails, the Central Zone can assume some functions. Ethernet backbone provides natural multi-path communication.</p>
+
+                    <h3>The Timeline: When Does Zonal Take Over?</h3>
+                    <ul>
+                        <li><strong>2025-2026:</strong> High-end luxury vehicles adopt full zonal architecture. Mainstream segments begin pilots.</li>
+                        <li><strong>2027-2030:</strong> Mid-range vehicles transition to zonal. Legacy domain architecture phased out for new platforms.</li>
+                        <li><strong>2030+:</strong> Zonal becomes the standard for all new vehicles.</li>
+                    </ul>
+
+                    <h3>Conclusion</h3>
+                    <p>Zonal Architecture is not a gradual evolution of domain architecture—it's a fundamental reimagining of how vehicles are engineered. It reduces cost, enables software-defined vehicles, and simplifies development. The transition will take 10+ years, but it's inevitable. At Vainix, we're enabling Indian startups and OEMs to own this transition.</p>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleArticle(this.parentElement)">Read Full Article</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleArticle(element) {
+            const content = element.querySelector('.article-content');
+            const btn = element.querySelector('.toggle-btn');
+            
+            if (!content) {
+                const parent = element.closest('.article-item');
+                const parentContent = parent.querySelector('.article-content');
+                const parentBtn = parent.querySelector('.toggle-btn');
+                
+                if (!parentContent) return;
+                
+                const isActive = parentContent.classList.contains('active');
+                
+                document.querySelectorAll('.article-content.active').forEach(el => {
+                    el.classList.remove('active');
+                });
+                document.querySelectorAll('.toggle-btn.active').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                if (!isActive) {
+                    parentContent.classList.add('active');
+                    parentBtn.classList.add('active');
+                }
+            } else {
+                const isActive = content.classList.contains('active');
+                
+                document.querySelectorAll('.article-content.active').forEach(el => {
+                    el.classList.remove('active');
+                });
+                document.querySelectorAll('.toggle-btn.active').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                if (!isActive) {
+                    content.classList.add('active');
+                    btn.classList.add('active');
+                }
