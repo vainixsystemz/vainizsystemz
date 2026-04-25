@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -704,6 +705,7 @@
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    text-decoration: none;
   }
 
   /* ─── FAQ ─── */
@@ -1304,7 +1306,7 @@
         <span class="spec-pill">Real-Time</span>
         <span class="spec-pill">SD Storage</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1318,7 +1320,7 @@
         <span class="spec-pill">Load Balancing</span>
         <span class="spec-pill">OTA Updates</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1332,7 +1334,7 @@
         <span class="spec-pill">Cloud-Ready</span>
         <span class="spec-pill">IP67</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1346,7 +1348,7 @@
         <span class="spec-pill">Sub-10ms Latency</span>
         <span class="spec-pill">SAE J2735</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1360,7 +1362,7 @@
         <span class="spec-pill">ADAS</span>
         <span class="spec-pill">Automotive Grade</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1374,7 +1376,7 @@
         <span class="spec-pill">Predictive Analytics</span>
         <span class="spec-pill">Modular</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
     <div class="product-card">
@@ -1388,7 +1390,7 @@
         <span class="spec-pill">Ethernet Backbone</span>
         <span class="spec-pill">OTA</span>
       </div>
-      <a href="#contact" class="product-cta">Request Demo <span>→</span></a>
+      <a href="demo.html" class="product-cta">Request Demo</a>
     </div>
 
   </div>
@@ -1542,7 +1544,7 @@
         </div>
         <div class="blog-title">CAN Bus in 2025: Why the 40-Year-Old Protocol Still Rules Automotive</div>
         <div class="blog-excerpt">Despite newer alternatives like Ethernet and FlexRay, CAN remains the backbone of vehicle communication. Here's why — and how we're extending its capabilities at Vainix.</div>
-        <div class="blog-read">Read Article →</div>
+        <a href="articles.html" class="blog-read">Read Article →</a>
       </div>
     </div>
 
@@ -1558,7 +1560,7 @@
         </div>
         <div class="blog-title">Building India-First EV Charging Infrastructure: The Engineering Challenges</div>
         <div class="blog-excerpt">Grid volatility, cost constraints, and heat — building EV charging hardware for India is a different problem than building it for Europe. Our approach to solving it.</div>
-        <div class="blog-read">Read Article →</div>
+        <a href="articles.html" class="blog-read">Read Article →</a>
       </div>
     </div>
 
@@ -1574,7 +1576,7 @@
         </div>
         <div class="blog-title">Zonal vs Domain Architecture: The Shift Redefining Modern Vehicles</div>
         <div class="blog-excerpt">The automotive E/E architecture is undergoing its biggest transformation in decades. We break down what zonal architecture means, and why it matters for software-defined vehicles.</div>
-        <div class="blog-read">Read Article →</div>
+        <a href="articles.html" class="blog-read">Read Article →</a>
       </div>
     </div>
 
@@ -1860,3 +1862,5 @@
 </script>
 </body>
 </html>
+EOF
+echo "✓ Updated index.html created successfully!"
