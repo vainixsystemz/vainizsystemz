@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Demonstrations | Vainix Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #64c8ff;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #64c8ff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #64c8ff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(100, 200, 255, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #64c8ff 0%, #a0d8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: #64c8ff;
+            background: rgba(30, 30, 50, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 200, 255, 0.1);
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: rgba(100, 200, 255, 0.1);
+            color: #64c8ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+        }
+
+        .architecture-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(100, 200, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            color: #64c8ff;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .component-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .component-list li {
+            padding: 0.4rem 0;
+            display: flex;
+            align-items: center;
+            color: #c0c0c0;
+            font-size: 0.95rem;
+        }
+
+        .component-list li::before {
+            content: '▸';
+            color: #64c8ff;
+            margin-right: 0.8rem;
+            font-weight: bold;
+        }
+
+        .working-description {
+            background: rgba(100, 200, 255, 0.05);
+            border-left: 3px solid #64c8ff;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            background: rgba(100, 200, 255, 0.08);
+            padding: 0.8rem;
+            border-radius: 6px;
+            border-left: 2px solid #64c8ff;
+        }
+
+        .spec-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-value {
+            font-size: 0.95rem;
+            color: #64c8ff;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+
+        .contact-banner {
+            background: linear-gradient(135deg, rgba(100, 200, 255, 0.1), rgba(160, 216, 255, 0.05));
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .contact-banner h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #64c8ff;
+        }
+
+        .contact-banner p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid #64c8ff;
+            background: transparent;
+            color: #64c8ff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: rgba(100, 200, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: #64c8ff;
+            color: #0f0f1e;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #a0d8ff;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">VAINIX.</a>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>Product Demonstrations</h1>
+            <p>Explore the architecture, components, and working mechanisms of all our 7 products</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1: Smart CAN Logger -->
+            <div class="product-card">
+                <div class="product-icon">🚗</div>
+                <div class="product-title">Smart CAN Logger</div>
+                <div class="product-category">Automotive</div>
+                <div class="section-label">Real-Time Data Capture</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>STM32 MCU Core</li>
+                        <li>CAN 2.0A/B Transceiver</li>
+                        <li>SD Card Interface</li>
+                        <li>Real-Time Clock (RTC)</li>
+                        <li>Power Management Unit</li>
+                        <li>USB/UART Interface</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Speed</div><div class="spec-value">1 Mbps</div></div>
+                    <div class="spec-item"><div class="spec-label">Standards</div><div class="spec-value">CAN 2.0A/B</div></div>
+                    <div class="spec-item"><div class="spec-label">Storage</div><div class="spec-value">SD Card</div></div>
+                    <div class="spec-item"><div class="spec-label">Mode</div><div class="spec-value">Real-Time</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> The Smart CAN Logger captures all messages from a vehicle's CAN bus in real-time. The STM32 MCU continuously listens to the CAN transceiver, timestamps each frame, and stores them to an SD card with minimal latency. The RTC ensures accurate timing across sessions. Engineers retrieve the SD card and analyze vehicle behavior, diagnostics, and protocol compliance through CANalyzer software.
+                </div>
+            </div>
+
+            <!-- Product 2: EV Charging Systems -->
+            <div class="product-card">
+                <div class="product-icon">⚡</div>
+                <div class="product-title">EV Charging Systems</div>
+                <div class="product-category">EV Technology</div>
+                <div class="section-label">Smart Load Management</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>AC/DC Power Converter</li>
+                        <li>Microcontroller (STM32)</li>
+                        <li>OCPP 1.6 Protocol Stack</li>
+                        <li>WiFi/LTE Module</li>
+                        <li>Relay & Contactor Control</li>
+                        <li>Current/Voltage Sensors</li>
+                        <li>Thermal Management</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Charging Type</div><div class="spec-value">AC/DC</div></div>
+                    <div class="spec-item"><div class="spec-label">Protocol</div><div class="spec-value">OCPP 1.6</div></div>
+                    <div class="spec-item"><div class="spec-label">Control</div><div class="spec-value">Load Balancing</div></div>
+                    <div class="spec-item"><div class="spec-label">Updates</div><div class="spec-value">OTA</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> The EV Charging System intelligently manages power delivery to electric vehicles. It communicates with charging stations via OCPP 1.6 protocol, monitors grid load through current/voltage sensors, and dynamically adjusts charging rates to prevent grid overload. The WiFi/LTE module enables remote monitoring and OTA firmware updates. Thermal sensors prevent overheating in India's hot climate.
+                </div>
+            </div>
+
+            <!-- Product 3: IoT Monitoring Devices -->
+            <div class="product-card">
+                <div class="product-icon">📡</div>
+                <div class="product-title">IoT Monitoring Devices</div>
+                <div class="product-category">IoT & Sensors</div>
+                <div class="section-label">Battery-Efficient Sensors</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>ESP32 / STM32 MCU</li>
+                        <li>Multi-Sensor Interface</li>
+                        <li>LoRa Transceiver</li>
+                        <li>BLE Module</li>
+                        <li>WiFi Connectivity</li>
+                        <li>Low-Power Battery Management</li>
+                        <li>IP67 Enclosure</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Wireless</div><div class="spec-value">LoRa/WiFi/BLE</div></div>
+                    <div class="spec-item"><div class="spec-label">Power</div><div class="spec-value">Low Power</div></div>
+                    <div class="spec-item"><div class="spec-label">Integration</div><div class="spec-value">Cloud-Ready</div></div>
+                    <div class="spec-item"><div class="spec-label">Rating</div><div class="spec-value">IP67</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> IoT sensor nodes are deployed across industrial sites, farms, or infrastructure. The ESP32 MCU multiplexes sensor data (temperature, humidity, pressure, etc.), processes it locally, and transmits via LoRa for long-range coverage or WiFi/BLE for short-range. Advanced power management stretches battery life to months. Cloud integration enables real-time dashboards and predictive alerts.
+                </div>
+            </div>
+
+            <!-- Product 4: V2V & V2X Communication -->
+            <div class="product-card">
+                <div class="product-icon">🚘</div>
+                <div class="product-title">V2V & V2X Communication</div>
+                <div class="product-category">Connected Vehicles</div>
+                <div class="section-label">Sub-10ms Latency</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>DSRC/C-V2X Transceiver</li>
+                        <li>5.9 GHz Radio Module</li>
+                        <li>Baseband Processor</li>
+                        <li>MAC Layer Controller</li>
+                        <li>Security Module (HSM)</li>
+                        <li>Antenna Assembly</li>
+                        <li>CAN Interface Bridge</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Standard</div><div class="spec-value">DSRC/C-V2X</div></div>
+                    <div class="spec-item"><div class="spec-label">Frequency</div><div class="spec-value">5.9 GHz</div></div>
+                    <div class="spec-item"><div class="spec-label">Latency</div><div class="spec-value">&lt;10ms</div></div>
+                    <div class="spec-item"><div class="spec-label">Format</div><div class="spec-value">SAE J2735</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> V2X modules enable vehicles to communicate with each other and roadside infrastructure. The 5.9 GHz DSRC transceiver broadcasts safety-critical messages (collision warnings, traffic alerts) in microsecond response times. A security module ensures message authentication. The MAC layer handles collision avoidance and prioritization. Data flows to the vehicle's CAN bus for ADAS systems to act on.
+                </div>
+            </div>
+
+            <!-- Product 5: Automotive HPC -->
+            <div class="product-card">
+                <div class="product-icon">🖥️</div>
+                <div class="product-title">Automotive HPC</div>
+                <div class="product-category">High Performance Computing</div>
+                <div class="section-label">ASIL-B Ready</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>Multi-Core ARM Processor</li>
+                        <li>GPU Accelerator</li>
+                        <li>Multi-Channel I/O Interface</li>
+                        <li>Sensor Fusion Engine</li>
+                        <li>Real-Time OS (FreeRTOS)</li>
+                        <li>Functional Safety Monitor</li>
+                        <li>Automotive Thermal Solution</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Safety</div><div class="spec-value">ASIL-B Ready</div></div>
+                    <div class="spec-item"><div class="spec-label">Processing</div><div class="spec-value">Sensor Fusion</div></div>
+                    <div class="spec-item"><div class="spec-label">Features</div><div class="spec-value">ADAS</div></div>
+                    <div class="spec-item"><div class="spec-label">Grade</div><div class="spec-value">Automotive</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> The Automotive HPC centralizes compute for ADAS and autonomous features. Multiple sensor inputs (cameras, LiDAR, radar) feed into the GPU-accelerated sensor fusion engine, which runs AI models for object detection and path planning in real-time. Functional safety monitors ensure redundancy and error detection. FreeRTOS provides deterministic task scheduling. All designed with ASIL-B compliance for automotive safety standards.
+                </div>
+            </div>
+
+            <!-- Product 6: Midaas -->
+            <div class="product-card">
+                <div class="product-icon">💎</div>
+                <div class="product-title">Midaas</div>
+                <div class="product-category">Data Acquisition & Analytics</div>
+                <div class="section-label">Modular & Scalable</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>Modular Signal Conditioner</li>
+                        <li>Multi-Channel ADC/DAC</li>
+                        <li>DSP Processing Unit</li>
+                        <li>Real-Time Analytics Engine</li>
+                        <li>Cloud Interface (AWS IoT)</li>
+                        <li>Predictive Models</li>
+                        <li>Graphical Dashboard</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Channels</div><div class="spec-value">Multi-Channel</div></div>
+                    <div class="spec-item"><div class="spec-label">Processing</div><div class="spec-value">Signal Processing</div></div>
+                    <div class="spec-item"><div class="spec-label">Analytics</div><div class="spec-value">Predictive</div></div>
+                    <div class="spec-item"><div class="spec-label">Design</div><div class="spec-value">Modular</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> Midaas is a modular platform that acquires signals from multiple sensors, conditions them (amplification, filtering), digitizes via ADC, and processes in real-time using DSP algorithms. Extracted features feed predictive models for anomaly detection and health monitoring. Results stream to AWS IoT for cloud storage and visualization. Engineers use the dashboard to identify trends and schedule maintenance before failures occur.
+                </div>
+            </div>
+
+            <!-- Product 7: Zonal Architecture -->
+            <div class="product-card">
+                <div class="product-icon">🗂️</div>
+                <div class="product-title">Zonal Architecture</div>
+                <div class="product-category">Vehicle E/E Architecture</div>
+                <div class="section-label">SDV-Ready Platform</div>
+                <div class="architecture-section">
+                    <div class="section-title">Architecture Components</div>
+                    <ul class="component-list">
+                        <li>Zone Controller Module</li>
+                        <li>Ethernet Backbone Network</li>
+                        <li>Centralized Gateway</li>
+                        <li>Software-Defined Vehicle (SDV) OS</li>
+                        <li>OTA Update Engine</li>
+                        <li>CAN/LIN Legacy Bridge</li>
+                        <li>Security & Authentication</li>
+                    </ul>
+                </div>
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="spec-label">Readiness</div><div class="spec-value">SDV-Ready</div></div>
+                    <div class="spec-item"><div class="spec-label">Control</div><div class="spec-value">Zone Controller</div></div>
+                    <div class="spec-item"><div class="spec-label">Network</div><div class="spec-value">Ethernet</div></div>
+                    <div class="spec-item"><div class="spec-label">Updates</div><div class="spec-value">OTA</div></div>
+                </div>
+                <div class="working-description">
+                    <strong>How It Works:</strong> Zonal Architecture replaces traditional domain-silos (Powertrain, Chassis, Body) with geographic zones (Front, Rear, Left, Right, Center). Zone Controllers are deployed at each region, connected via a high-speed Ethernet backbone. Software modules run on SDV OS and communicate via middleware. This reduces vehicle wiring complexity by 40%, enables dynamic software deployment, and supports OTA updates across all zones from a single central gateway.
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-banner">
+            <h2>Ready to See Them in Action?</h2>
+            <p>Get hands-on experience with our products or discuss how they fit your needs.</p>
+            <div class="contact-buttons">
+                <a href="mailto:vainixsystemz@gmail.com?subject=Demo Request" class="btn btn-primary">Request Demo</a>
+                <a href="tel:+919945578504" class="btn">Call Us</a>
+                <a href="https://wa.me/919945578504" class="btn">WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
